@@ -1,5 +1,5 @@
-#if !defined(LINKED_LIST_H)
-#define LINKED_LIST_H
+#if !defined(LISTS)
+#define LISTS
 
 #include <iostream>
 
@@ -66,25 +66,28 @@ namespace lists {
 		}
 
 		// custom iterator
-		struct iter
-		{
-			node* m_ptr;
-			// iterator constructor
-			iter(node* ptr): m_ptr(ptr) {}
-			node& operator*() const { return *m_ptr; }
-			node* operator->() const { return m_ptr; }
+		struct iterator;
 
-			iter& operator++() {
-				m_ptr = m_ptr->next;
-				return *this;
-			}
+		iterator begin() { return iterator(head);}
+		iterator end() { return nullptr; }
+	};
 
-			bool operator==(const iter& other) { return m_ptr == other.m_ptr; }
-			bool operator!=(const iter& other) { return m_ptr != other.m_ptr; }
-		};
+	template<typename T>
+	struct singly_linked_list<T>::iterator
+	{
+		node* m_ptr;
+		// iterator constructor
+		iterator(node* ptr) : m_ptr(ptr) {}
+		node& operator*() const { return *m_ptr; }
+		node* operator->() const { return m_ptr; }
 
-		iter begin() { return iter(head);}
-		iter end() { return nullptr; }
+		iterator& operator++() {
+			m_ptr = m_ptr->next;
+			return *this;
+		}
+
+		bool operator==(const iterator& other) { return m_ptr == other.m_ptr; }
+		bool operator!=(const iterator& other) { return m_ptr != other.m_ptr; }
 	};
 
 	template<typename T>
@@ -151,31 +154,37 @@ namespace lists {
 			std::cout << std::endl;
 		}
 
-		struct iter {
-			node* m_ptr;
-			iter(node* ptr): m_ptr(ptr){}
-			node& operator*() const { return *m_ptr; }
-			node* operator->() const { return m_ptr; }
+		struct iterator;
 
-			iter& operator++() {
-				m_ptr = m_ptr->next;
-				return *this;
-			}
-
-			iter& operator--() {
-				m_ptr = m_ptr->previous;
-				return *this;
-			}
-
-			bool operator==(const iter& other) { return m_ptr == other.m_ptr; }
-			bool operator!=(const iter& other) { return m_ptr != other.m_ptr; }
-		};
-
-		iter begin() { return iter(head); }
-		iter end() { return nullptr; }
-		iter rbegin() { return iter(tail); }
-		iter rend() { return nullptr; }
+		iterator begin() { return iterator(head); }
+		iterator end() { return nullptr; }
+		iterator rbegin() { return iterator(tail); }
+		iterator rend() { return nullptr; }
 	};
+
+	template<typename T>
+	struct doubly_linked_list<T>::iterator 
+	{
+		node* m_ptr;
+		iterator(node* ptr) : m_ptr(ptr) {}
+		node& operator*() const { return *m_ptr; }
+		node* operator->() const { return m_ptr; }
+
+		iterator& operator++() {
+			m_ptr = m_ptr->next;
+			return *this;
+		}
+
+		iterator& operator--() {
+			m_ptr = m_ptr->previous;
+			return *this;
+		}
+
+		bool operator==(const iterator& other) { return m_ptr == other.m_ptr; }
+		bool operator!=(const iterator& other) { return m_ptr != other.m_ptr; }
+	};
+
+
 }
 
 
