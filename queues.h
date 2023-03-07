@@ -35,29 +35,32 @@ namespace queues {
 			return size;
 		}
 
-		element& front() const {
-			return *head;
+		T& front() const {
+			return head->value;
 		}
 
-		element& back() const {
-			return *tail;
+		T& back() const {
+			return tail->value;
 		}
 
 		void push(const T& val) {
-			element* temp = new element(value);
+			std::cout << "Pushing " << val << "..." << std::endl;
+			element* temp = new element(val);
 			// case where list is empty;
-			if (head == nullptr && tail == nullptr) {
+			if (head == nullptr) {
 				head = temp;
 				tail = temp;
 				return;
 			}
-			temp->next = head;
-			head = tail;
+			tail->next = temp;
+			tail = temp;
 		}
 		// pop
 		void pop() {
 			element* temp = head;
+			std::cout << "Popping " << temp->value << "..." << std::endl;
 			head = head->next;
+			delete temp;
 		}
 
 		// print queue
@@ -77,25 +80,25 @@ namespace queues {
 		}
 	};
 
-	template<typename T>
-	class double_ended_queue {
-		// size
-		// resize
-		// empty
-		
-		
-		// interator
+	//template<typename T>
+	//class double_ended_queue {
+	//	// size
+	//	// resize
+	//	// empty
+	//	
+	//	
+	//	// interator
 
-	};
+	//};
 
-	template<typename T>
-	class priority_queue {
-		// empty
-		// size
-		// push
-		// pop
-		// top
-	};
+	//template<typename T>
+	//class priority_queue {
+	//	// empty
+	//	// size
+	//	// push
+	//	// pop
+	//	// top
+	//};
 
 }
 
